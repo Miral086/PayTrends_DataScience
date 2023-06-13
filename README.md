@@ -52,4 +52,32 @@ I looked at the distributions of the data and the value counts for the various c
 
 ![Salary By Job Title](https://github.com/Miral086/PayTrends_DataScience/blob/main/salary_by_job_title.png)
 ![Positions By City](https://github.com/Miral086/PayTrends_DataScience/blob/main/positions_by_city.png)
+
 ![Correlation Visual](https://github.com/Miral086/PayTrends_DataScience/blob/main/correlation_visual.png)
+
+# Data Visualization
+I have created an interactive and visually appealing data visualization dashboard using Power BI. The attached GIF showcases the dynamic charts, graphs, and insights derived from the data, providing a comprehensive overview of the information at a glance.
+
+![Alt Text](https://github.com/Miral086/PayTrends_DataScience/blob/main/Dashboard.gif)
+
+
+# Model Building
+First, I transformed the categorical variables into dummy variables. I also split the data into train and tests sets with a test size of 20%.
+
+I tried three different models and evaluated them using Mean Absolute Error. I chose MAE because it is relatively easy to interpret and outliers aren’t particularly bad in for this type of model.
+
+I tried three different models:
+
+Multiple Linear Regression – Baseline for the model
+Lasso Regression – Because of the sparse data from the many categorical variables, I thought a normalized regression like lasso would be effective.
+Random Forest – Again, with the sparsity associated with the data, I thought that this would be a good fit.
+
+# Model performance
+The Random Forest model far outperformed the other approaches on the test and validation sets.
+
+## * Random Forest :
+## * Linear Regression :
+## * Ridge Regression :
+
+# Productionization
+I have developed a Flask application deployed on the localhost, which automates the process of fetching details from a dataset containing information for 851 companies. Leveraging this data, the application enables users to input a job description, and based on it, predicts the salary, providing valuable insights into potential earnings for specific roles in the field.
