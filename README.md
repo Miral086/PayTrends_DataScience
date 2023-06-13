@@ -16,7 +16,7 @@ For Web Framework Requirements: pip install -r requirements.txt
 Flask Productionization: https://towardsdatascience.com/productionize-a-machine-learning-model-with-flask-and-heroku-8201260503d2
 
 # Web Scraping
-Tweaked the web scraper github repo (above) to scrape 1000 job postings from glassdoor.com. With each job, we got the following:
+I have utilized Selenium for web scraping, specifically targeting data science job listings on Glassdoor. By automating the data extraction process, I have collected information as listed below, providing a comprehensive dataset for further analysis and insights.
 
 * Job title
 * Salary Estimate
