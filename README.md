@@ -1,5 +1,5 @@
 # Pay Trends In DataScience
-![Alt Text](https://github.com/Miral086/PayTrends_DataScience/blob/main/PayTrends.gif)
+![Alt Text](https://github.com/Miral086/PayTrends_DataScience/blob/main/Paytrends_web.gif)
 * Developed a data science salary estimation tool with a Mean Absolute Error (MAE) of approximately &#8377;20K, aimed at aiding data scientists in income negotiation during job acquisition.
 * Utilized Python and Selenium to scrape a dataset of over 1000 job descriptions from Glassdoor, ensuring a comprehensive and diverse data collection.
 * Conducted feature engineering on the text of each job description to quantify the significance attributed by companies to skills such as Python, Excel, AWS, and Spark.
@@ -39,10 +39,14 @@ After scraping the data, I needed to clean it up so that it was usable for our m
 * Added a column for if the job was at the company’s headquarters
 * Transformed founded date into age of company
 * Made columns for if different skills were listed in the job description:
-* * Python
-* * R
-* * Excel
-* * AWS
-* * Spark
-* * Column for simplified job title and Seniority
-* * Column for description length
+  * Python
+  * R
+  * Excel
+  * AWS
+  * Spark
+  * Column for simplified job title and Seniority
+  * Column for description length
+
+# EDA
+I looked at the distributions of the data and the value counts for the various categorical variables. Below are a few highlights from the pivot tables.
+![Salary By Job Title](https://github.com/Miral086/PayTrends_DataScience/blob/main/salary_by_job_title.png)
