@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <title>Pay Trends in Data Science</title>
+    <link rel="shortcut icon" href="{{url_for('static', filename = 'title.png' )}}">
+<link rel="shortcut icon" href="{{url_for('static', filename = 'teacher.png' )}}">
+    <style>
+        .btn1
+        {
+            background-color: honeydew;
+            border: none;
+            height: 70px;                    
+            width: 250px;
+            border-radius: 35px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 30px;
+            color: #2e424b;
+            
+        }
+        .btn1:hover
+        {
+            background-color: #2e424b;
+            color: honeydew;
+            transition: 0.5s;
+        }
+        .prd
+        {
+            font-size: 25px;
+        }
+        .div1
+        {
+            background-color: rgb(255, 255, 255);
+            border-radius: 15px;
+            box-shadow: 10px 10px 25px;
+            background-color: rgba(255, 255, 255, .15);  
+            backdrop-filter: blur(10px);
+            padding: 0.8rem;
+        }
+        /* body
+        {
+            background-image: url({{ url_for('static', filename='pic2.jpg') }});
+            background-size: cover;
+            height: 10rem;
+
+        } */
+        label
+        {
+            font-size: 18px;
+            color: white;
+        }
+        body {
+            background-image: url("../static/b1.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 1rem;
+        }
+
+        .head{
+            color: #80a4b5;
+            text-shadow:3px 3px #2e424b;
+        }
+        .head1{
+            padding-bottom: 1rem;
+        }
+        #prediction-result{
+            color:palevioletred;
+            padding-top: 2rem;
+        }
+    </style>
+    <script>
+        function updateDetails() {
+          var companyName = document.getElementById("company-name").value;
+  
+          // Make an AJAX request to Flask route to fetch the details
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/get_details", true);
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+              var response = JSON.parse(xhr.responseText);
+              var details = response.details;
+  
+              // Update the text boxes with the fetched details
+              document.getElementById("rating").value = details.rating;
+              document.getElementById("size").value = details.size;
+              document.getElementById("ownership").value = details.ownership;
+              document.getElementById("revenue").value = details.revenue;
+              document.getElementById("sector").value = details.sector;
+              document.getElementById("industry").value = details.industry;
+            }
+          };
+          xhr.send("company=" + encodeURIComponent(companyName));
+        }
+
+        function predict() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/predict", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                var prediction = response.prediction;
+
+                // Format the prediction message
+                var predictionMessage = "You can expect " + prediction + " lacs per annum from the provided details.";
+
+                // Update the prediction result element with the formatted prediction message
+                document.getElementById("prediction-result").textContent = predictionMessage;
+                }
+            };
+
+            // Get the form data and send it as the request payload
+            var form = document.getElementById("pred");
+            var formData = new FormData(form);
+            xhr.send(new URLSearchParams(formData));
+        }
+
+        document.getElementById("prediction-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Call the predict function to send the AJAX request
+            predict();
+        });
+
+    </script>
+</head>
+<body>
+    <div class="container div1">
+        <h1 align="center" class="head mt-5 mb-3">Discover Your Worth</h1>
+        <h2 align="center" class="head head1">Predict Your Salary using Company Details and Job Description</h2>
+            <form id="pred" method="post" class="row g-3">
+                <div class="col-md-6"> 
+                    <label class="form-label" for="company-name">Company Name:</label class="form-label">
+                    <select class="form-select" id="company-name" name="company-name" onchange="updateDetails()" required>
+                      <option value="">Select Company</option>
+                      {% for company in companies %}
+                        <option value="{{ company }}">{{ company }}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="rating">Rating:</label class="form-label">
+                    <input class="form-control" type="text" id="rating" name="rating" readonly required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="size">Size:</label>
+                    <input class="form-control" type="text" id="size" name="size" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="ownership">Type of Ownership:</label>
+                    <input class="form-control" type="text" id="ownership" name="ownership" readonly required>
+                </div>
+                <div class="col-md-6">
+                    <label  class="form-label" for="revenue">Revenue:</label>
+                    <input class="form-control" type="text" id="revenue" name="revenue" readonly required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="sector">Sector:</label>
+                    <input class="form-control" type="text" id="sector" name="sector" readonly required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="industry">Industry:</label>
+                    <input class="form-control" type="text" id="industry" name="industry" readonly required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="job_title">Job Title:</label>
+                    <select class="form-select" id="job_title" name="job_title" required>
+                      <option value="">Select Job Title</option>
+                      <option value="analyst">Data Analyst</option>
+                      <option value="data scientist">Data Scientist</option>
+                      <option value="data engineer">Data Engineer</option>
+                      <option value="mle">Machine Learning Engineer</option>
+                      <option value="manager">Manager</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="seniority">Seniority:</label>
+                    <select class="form-select" id="seniority" name="seniority" required>
+                      <option value="">Select Seniority</option>
+                      <option value="senior">Senior</option>
+                      <option value="junior">Junior</option>
+                      <option value="na">Not Mentioned</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="location">Location:</label>
+                    <select class="form-select" id="location" name="location" required>
+                    <option value="">Select Location</option>
+                      <option value="Pune">Pune</option>
+                      <option value="Chennai">Chennai</option>
+                      <option value="Hyderābād">Hyderabad</option>
+                      <option value="New Delhi">New Delhi</option>
+                      <option value="Bengaluru">Bengaluru</option>
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Vadodara">Vadodara</option>
+                      <option value="Ahmedabad">Ahmedabad</option>
+                      <option value="Surat">Surat</option>
+                      <option value="Navi Mumbai">Navi Mumbai</option>
+                      <option value="Rājkot">Rajkot</option>
+                      <option value="Gāndhīnagar">Gandhinagar</option>
+                      <option value="Thāne">Thane</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="skills">Skills:</label>
+                      <select class="form-select" id="skills" class="skills-select" name="skills[]" multiple required>
+                      <option value="python">Python</option>
+                      <option value="R">R</option>
+                      <option value="excel">Excel</option>
+                      <option value="dv">Data Visualization</option>
+                      <option value="dm">Data Mining</option>
+                      <option value="ml">Machine Learning</option>
+                      <option value="cv">Computer Vision</option>
+                      <option value="nlp">NLP</option>
+                      <option value="sql">SQL</option>
+                      <option value="nosql">Nosql</option>
+                    </select> 
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="description" >Job Description:</label>
+                  <input class="form-control" type="text" id="description" placeholder="Copy and Paste Your Job Description Here" name="description" required>
+                </div>
+                <div align="center">
+                    <!-- <button class="btn1 " onclick="predict()">Predict</button> -->
+                    <button class="btn1" type="button" onclick="predict()">Predict</button>
+                    
+                </div>    
+            </form>
+            <h2 align="center" id="prediction-result"></h2>
+    </div>
+</body>
+</html>
