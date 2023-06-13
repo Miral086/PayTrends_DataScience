@@ -75,9 +75,9 @@ Random Forest – Again, with the sparsity associated with the data, I thought t
 # Model performance
 The Random Forest model far outperformed the other approaches on the test and validation sets.
 
-## * Random Forest :
-## * Linear Regression :
-## * Ridge Regression :
+### * Random Forest : 2.32
+### * Lasso Regression: 2.27
+### * Linear Regression : 2.50
 
 # Productionization
 I have developed a Flask application deployed on the localhost, which automates the process of fetching details from a dataset containing information for 851 companies. Leveraging this data, the application enables users to input a job description, and based on it, predicts the salary, providing valuable insights into potential earnings for specific roles in the field.
